@@ -19,6 +19,6 @@
     "tests"
   ],
   "dependencies": {
-    "oflow": "anvaka/oflow#^0.2.2"
+    "oflow": "d4l3k/oflow#^0.2.3"
   }
 }
