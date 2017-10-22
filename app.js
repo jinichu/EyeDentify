@@ -290,7 +290,7 @@ class App {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     
     this.ctx.font = "100pt Arial";
-    this.ctx.fillText(region['text'], this.canvas.width / 2, this.canvas.height / 2);
+    this.ctx.fillText(region['text'], this.canvas.width/2, this.canvas.height/2);
     this.setArrow(region, regions);
     
   }
