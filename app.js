@@ -11,6 +11,7 @@ const keys = [
     { region: 'southcentralus', key: '6d874445df8b47078a889dee77c32874' },
 ]
 
+const textScale = 1920;
 
 class App {
 
@@ -327,14 +328,15 @@ class App {
     if (region.width !== this.video.videoWidth) {
       zoomRatio *= 0.75
     }
-    var widthOffset = window.innerWidth / 2 / zoomRatio - x - this.u
-    var heightOffset = window.innerHeight / 2 / zoomRatio - y - this.v
+    var widthOffset = window.innerWidth / 2 / zoomRatio - x // - this.u
+    var heightOffset = window.innerHeight / 2 / zoomRatio - y //- this.v
 
     this.video.style.transform = 'scale(' + zoomRatio + ') translate3d(' + widthOffset + 'px,' + heightOffset + 'px,0)';
 
     this.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
     
-    this.ctx.font = "100pt Arial";
+    var fontSize = 250 * window.innerWidth/textScale;
+    this.ctx.font = fontSize + "pt Arial";
     this.ctx.textAlign = 'center'
     this.ctx.strokeStyle = 'white'
     this.ctx.fillStyle = 'black'
