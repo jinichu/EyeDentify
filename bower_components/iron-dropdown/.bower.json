@@ -66,7 +66,6 @@
     "commit": "1f581967ae539bf6d94f08a29783e323992a33c8"
   },
   "_source": "https://github.com/PolymerElements/iron-dropdown.git",
-  "_target": "^2.0.0",
-  "_originalSource": "iron-dropdown",
-  "_direct": true
+  "_target": "1 - 2",
+  "_originalSource": "PolymerElements/iron-dropdown"
 }
