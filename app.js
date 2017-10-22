@@ -1,14 +1,6 @@
 const keys = [
-  { region: 'westcentralus', key: '06c348a76108436a97c449b092a66a2b' },
-  { region: 'westcentralus', key: '2e71ec40048448f8b09884eef5020d58' },
-  { region: 'westus', key: 'bbc52273720f4ae289fb4a8b966d8e08' },
-  { region: 'westus', key: 'f6bb0b4d0ed043109b9d3f20a6d91618' },
-  { region: 'westcentralus', key: '9d48cb80eeaf47e1b271351272ce1b38' },
-  { region: 'westcentralus', key: 'a9c195950c5b41698914ec93fb0a8a75' },
-  { region: 'westus2', key: '592600b67c864bad878281407dc4bd3d' },
-  { region: 'westus2', key: 'fd86a9f3d88341b4885564b165186b48' },
-  { region: 'southcentralus', key: 'd875495ec0b0429cbaa88602ea0aaebc' },
-  { region: 'southcentralus', key: 'fb8fe0114487432696c5d25785b2c70e' },
+  { region: 'westcentralus', key: 'ab04da62b04e4f29aab971a912c52583' },
+  { region: 'westcentralus', key: 'dbffc83786cb412d82d0f18f214eb2c8' },
 ]
 
 class App {
@@ -176,9 +168,10 @@ class App {
           this.u -= u
           this.v -= v
 
-          this.setArrow(mainObject,regions);
+        //this.setArrow(mainObject,regions);
 
-        this.mainObject = mainObject
+        this.mainObject = mainObject;
+        this.regions = regions;
 
       }
       xhr.send(blob)
@@ -187,8 +180,6 @@ class App {
       //setTimeout(this.resetZoom(), 5000);
     })
   }
-
-
 
   setArrow (target, targetArray) {
     var targetX = target.topLeft.x + target.width/2;
@@ -213,7 +204,7 @@ class App {
   drawArrow (start, end) {
     console.log("HERE");
     this.ctx.lineWidth = 2;
-    this.ctx.fillStyle = this.ctx.strokeStyle = '#000';
+    this.ctx.fillStyle = this.ctx.strokeStyle = '#0FF';
     this.ctx.save();
     /*
     var points = this.getEdges(start, end);
@@ -278,20 +269,30 @@ class App {
 
   }
 
-
   zoom () {
     window.requestAnimationFrame(() => {
       this.zoom()
     })
-    const region = this.mainObject
-    if (!region) {
-      return
+    const region = this.mainObject;
+    var regions = [];
+    for (var i = 0; i < this.regions.length; i++) {
+      regions.push(this.regions[i]);
     }
+    console.log(regions.length);
+    if (!region) return;
+    
     var zoomRatio = this.calculateRatio(region.width, region.height);
     var widthOffset = (region.topLeft.x + this.u) * -1;
     var heightOffset = (region.topLeft.y + this.v) * -1;
 
     this.video.style.transform = 'scale(' + zoomRatio + ',' + zoomRatio + ') translate3d(' + widthOffset + 'px,' + heightOffset + 'px,0)';
+
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    
+    this.ctx.font = "100pt Arial";
+    this.ctx.fillText(region['text'], this.canvas.width / 2, this.canvas.height / 2);
+    this.setArrow(region, regions);
+    
   }
 
   calculateRatio(boxWidth, boxHeight) {
@@ -304,6 +305,8 @@ class App {
   resetZoom () {
       this.video.style.transform = "none";
   }
+  
+  
 }
 
 
