@@ -7,7 +7,7 @@ class App {
 
     setInterval(() => {
       this.ocr()
-    }, 1000)
+    }, 10000)
   }
 
   ocr () {
