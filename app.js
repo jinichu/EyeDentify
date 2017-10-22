@@ -54,8 +54,8 @@ class App {
   }
 
   setArrow (target, targetArray){
-    var targetX = targetItem.topLeft.x + targetItem.width/2;
-    var targetY = targetItem.topLeft.y + targetItem.height/2;
+    var targetX = target.topLeft.x + targetItem.width/2;
+    var targetY = target.topLeft.y + targetItem.height/2;
     var usedArray = [];
     var radius = 5;
     targetArray.forEach(function(targetItem) {
