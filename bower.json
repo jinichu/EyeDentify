@@ -22,7 +22,8 @@
     "oflow": "d4l3k/oflow#^0.2.3",
     "webrtc-lobby-elements": "d4l3k/webrtc-lobby-elements#^1.0.3",
     "iron-icon": "PolymerElements/iron-icon#^2.0.0",
-    "iron-icons": "PolymerElements/iron-icons#^2.0.0"
+    "iron-icons": "PolymerElements/iron-icons#^2.0.0",
+    "progressbar.js": "^1.0.1"
   },
   "resolutions": {
     "polymer": "2.0.0"
