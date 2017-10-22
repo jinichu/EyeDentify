@@ -53,7 +53,7 @@ class App {
       xhr.open('POST', 'https://' + region + '.api.cognitive.microsoft.com/vision/v1.0/ocr', true)
       xhr.setRequestHeader("Content-Type", "application/octet-stream")
       xhr.setRequestHeader("Ocp-Apim-Subscription-Key", key)
-      xhr.onload = function (e) {
+      xhr.onload = (e) => {
         console.log(JSON.parse(e.target.response))
 
         this.u -= u
