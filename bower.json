@@ -1,0 +1,21 @@
+{
+  "name": "intellilens",
+  "homepage": "https://github.com/jinichu/intellilens",
+  "authors": [
+    "Jinny Byun <jinnybyun@gmail.com>",
+    "Tristan Rice <rice@fn.lc>",
+    "Joy Zhen",
+    "David",
+    "Aurora"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
