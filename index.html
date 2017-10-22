@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <meta name="viewport" content="width=device-width, user-scalable=no" />
 
 <style>
@@ -26,7 +27,121 @@ body {
         background-color: red;
         opacity: 0.5;
     }
+=======
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+<link rel="import" href="bower_components/polymer/polymer.html">
+<link rel="import" href="bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="bower_components/iron-icons/iron-dropdown.html">
+
+
+
+
+<style>
+#videoOut {
+    position: absolute;
+    pointer-events: none;
+    top: 50%; left: 50%;
+    z-index: -1;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    transform: translate(-50%, -50%);
+}
+#box {
+  position: absolute;
+  pointer-events: none;
+  background-color: red;
+  opacity: 0.5;
+}
+
+#menu{
+    float: right;
+    margin-top: 10px;
+}
+
+#save{
+    right: 50%;
+    bottom: 0;
+    position: absolute;
+    margin-bottom: 8px;
+}
+
+#visibility{
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    margin-bottom: 8px;
+}
+
+>>>>>>> web
 </style>
+
+
+
+<dev-element id = "save" toggle-icon="add-circle-outline"></dev-element>
+<dev-element id= "menu" toggle-icon="menu"></dev-element>
+<dev-element id = "visibility" toggle-icon="visibility"></dev-element>
+
+<dom-module id="dev-element">
+    <template>
+        <style>
+        :host {
+            display: inline-block;
+            --icon-toggle-color: pink;
+            --icon-toggle-pressed-color: blue;
+        }
+
+        iron-icon {
+            fill: var(--icon-toggle-color, rgba(0,0,0,0));
+            --iron-icon-width: 60px;
+            --iron-icon-height: 60px;
+        }
+
+        :host([pressed]) iron-icon{
+            fill: var(--icon-toggle-pressed-color, currentcolor);
+        }
+        </style>
+        <!-- <iron-icon icon = "add-circle-outline" pressed></iron-icon> -->
+        <iron-icon icon = "[[toggleIcon]]" on-click="toggle"></iron-icon>
+
+
+    </template>
+
+    <script>
+    class IronIcon extends Polymer.Element {
+        static get is(){
+            return 'dev-element';
+        }
+
+        static get properties(){
+            return{
+                pressed: {
+                    type: Boolean,
+                    notify: true,
+                    reflectToAttribute: true,
+                    value: false
+                },
+                toggleIcon: {
+                    type: String
+                },
+            }
+        }
+        constructor() {
+            super();
+        }
+
+        toggle(){
+            this.pressed = !this.pressed;
+        }
+    }
+    customElements.define(IronIcon.is, IronIcon);
+
+    </script>
+
+</dom-module>
+
+
 
 <video id='videoOut'></video>
 <canvas width="800" height="600"></canvas>
