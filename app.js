@@ -1,7 +1,16 @@
 const keys = [
-  { region: 'westcentralus', key: 'ab04da62b04e4f29aab971a912c52583' },
-  { region: 'westcentralus', key: 'dbffc83786cb412d82d0f18f214eb2c8' },
+    { region: 'westcentralus', key: 'a4427f56a83b427cadfcdca78c98e0c4' },
+    { region: 'westcentralus', key: '6a4bc5909ba4414597bbc4567d9659cc' },
+    { region: 'westus', key: 'ea909ef53db8447dbefe4b3f255fc45b' },
+    { region: 'westus', key: 'a26ef6df781a4eeab5f75d7ce07d56b9' },
+    { region: 'westcentralus', key: 'fce317283d4b4283aac46c54ebcf63be' },
+    { region: 'westcentralus', key: '6263e08f81bc4274ae0665f7722ad49c' },
+    { region: 'westus2', key: '695ae8b0f6ef43f9847986f2f7f88bf0' },
+    { region: 'westus2', key: '7779ba55bacc455e989834e225a1f5f4' },
+    { region: 'southcentralus', key: '1642eb66dec54c34a214ed06530f7472' },
+    { region: 'southcentralus', key: '6d874445df8b47078a889dee77c32874' },
 ]
+
 
 class App {
 
@@ -292,7 +301,7 @@ class App {
     this.ctx.font = "100pt Arial";
     this.ctx.fillText(region['text'], this.canvas.width/2, this.canvas.height/2);
     this.setArrow(region, regions);
-    
+
   }
 
   calculateRatio(boxWidth, boxHeight) {
