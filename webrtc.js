@@ -22,20 +22,30 @@ class WebRTCServer {
   constructor (localStream) {
     const lobby = document.querySelector("#lobby")
     document.querySelector("#lobbyID").innerText = lobby.token
-    this.conn = new RTCPeerConnection(config)
-    this.conn.addStream(localStream)
-    this.conn.onicecandidate = (ev) => {
-      console.log('candidate', ev)
-    }
-    this.conn.onconnecting = () => { console.log('connecting') }
-    this.conn.onopen = () => { console.log('open') }
+
+
     lobby.offer = (offer, resolve) => {
-      console.log('got offer!', offer)
-      this.conn.setRemoteDescription(decodeRSD(offer.Offer), () => {
-        this.conn.createAnswer((offer) => {
-          console.log('sending asnwer')
-          this.conn.setLocalDescription(offer, () => {}, error)
-          resolve({Answer: encodeRSD(offer)})
+      navigator.getUserMedia({video:true}, (stream) => {
+        const conn = new RTCPeerConnection(config)
+        conn.addStream(stream)
+        conn.onicecandidate = (ev) => {
+          console.log('candidate', ev)
+          if (!ev.candidate) {
+            console.log('sending answer')
+            resolve({Answer: encodeRSD(conn.localDescription)})
+          }
+        }
+        conn.onconnecting = () => { console.log('connecting') }
+        conn.onopen = () => { console.log('open') }
+        conn.ondatachannel = (ev) => {
+          console.log('data channel', ev)
+        }
+
+        console.log('got offer!', offer)
+        conn.setRemoteDescription(decodeRSD(offer.Offer), () => {
+          conn.createAnswer((offer) => {
+            conn.setLocalDescription(offer, () => {}, error)
+          }, error)
         }, error)
       }, error)
     }
@@ -52,6 +62,9 @@ function decodeRSD(rsd) {
 class WebRTCClient {
   constructor (lobby, vid) {
     this.conn = new RTCPeerConnection(config)
+
+    this.reliable = this.conn.createDataChannel('reliable')
+
     this.conn.onaddstream = (e) => {
       console.log('stream!!!!', e)
       vid.src = URL.createObjectURL(e.stream)

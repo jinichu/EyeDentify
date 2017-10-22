@@ -28,7 +28,7 @@ class App {
     })
 
     setInterval(() => {
-      this.ocr()
+      //this.ocr()
       console.log('optical flow', this.u, this.v)
     }, 2000)
 
