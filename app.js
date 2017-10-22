@@ -52,6 +52,29 @@ class App {
       xhr.send(blob)
     })
   }
+
+  setArrow (target, targetArray){
+    var targetX = targetItem.topLeft.x + targetItem.width/2;
+    var targetY = targetItem.topLeft.y + targetItem.height/2;
+    var usedArray = [];
+    var radius = 5;
+    targetArray.forEach(function(targetItem) {
+        if (!usedArray.includes(targetItem)) {
+          var centerX = targetItem.topLeft.x + targetItem.width / 2;
+          var centerY = targetItem.topLeft.y + targetItem.height / 2;
+          var difX = centerX - targetX;
+          var difY = centerY - targetY;
+          var dist = Math.sqrt(difX * difX + difY * difY);
+          if (dist < radius) {
+            usedArray.push(targetItem);
+            drawArrow();
+          }
+        }
+    });
+  }
+
+
+
 }
 
 window.app = new App()
