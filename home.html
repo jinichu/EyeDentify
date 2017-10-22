@@ -3,13 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="bower_components/progressbar.js/dist/progressbar.min.js"></script>
 </head>
+
+<style>
+    #container {
+        margin: 20px;
+        height: 8px;
+    }
+</style>
 <body>
-    <p style="text-align:center;"><img style="width:800px; height:600px;" sizing="contain" src="my_logo_big.png" align="middle"></p>
+    <p style="text-align:center;"><img style="width:800px; height:600px;" sizing="contain" src="my_logo_big.png"></p>
+    <div id="container" >
+        <script>
+          var bar = new ProgressBar.Line(document.querySelector('#container'), {
+            strokeWidth: 5,
+            easing: 'easeInOut',
+            duration: 5000,
+            color: '#FFEA82',
+            trailColor: '#eee',
+            trailWidth: 1,
+            svgStyle: {width: '100%', height: '100%'},
+            from: {color: '#b6d368'},
+            to: {color: '#68d3c5'},
+            step: (state, bar) => {
+            bar.path.setAttribute('stroke', state.color);
+          }
+          });
+
+          bar.animate(1.0);
+        </script>
+
+    </div>
+
     <script>
         window.setTimeout(function () {
           location.href = "index.html";
-        }, 3000);
+        }, 5000);
 
     </script>
 
