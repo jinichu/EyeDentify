@@ -11,10 +11,15 @@ class App {
     const webCamFlow = new oflow.WebCamFlow(this.video, zoneSize)
     webCamFlow.startCapture();
 
-    this.ctx = document.querySelector('canvas').getContext('2d')
+    const canvas = document.querySelector('canvas')
+    canvas.width = window.innerWidth
+    canvas.height = window.innerHeight
+    this.ctx = canvas.getContext('2d')
 
     this.u = 0
     this.v = 0
+    
+    
 
     webCamFlow.onCalculated((direction) => {
       this.u += direction.u
@@ -58,6 +63,30 @@ class App {
     this.canvas.height = height
     const ctx = this.canvas.getContext('2d')
     ctx.drawImage(this.video, 0, 0)
+    
+    if (!this.mainObject) {
+      this.mainObject = {
+          "topLeft": {
+              "x": 0,
+              "y": 0
+          },
+          "bottomLeft": {
+              "x": 0,
+              "y": height
+          },
+          "topRight": {
+              "x": width,
+              "y": 0
+          },
+          "bottomRight": {
+              "x": width,
+              "y": height
+          },
+          "text": "",
+          "width": width,
+          "height": height
+      }
+    }
 
     const {u, v} = this
 
@@ -275,10 +304,11 @@ class App {
     })
     const region = this.mainObject;
     var regions = [];
-    for (var i = 0; i < this.regions.length; i++) {
-      regions.push(this.regions[i]);
+    if (this.regions) {
+      for (var i = 0; i < this.regions.length; i++) {
+        regions.push(this.regions[i]);
+      }
     }
-    console.log(regions.length);
     if (!region) return;
     
     var zoomRatio = this.calculateRatio(region.width, region.height);
@@ -287,19 +317,20 @@ class App {
 
     this.video.style.transform = 'scale(' + zoomRatio + ',' + zoomRatio + ') translate3d(' + widthOffset + 'px,' + heightOffset + 'px,0)';
 
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
     
     this.ctx.font = "100pt Arial";
-    this.ctx.fillText(region['text'], this.canvas.width/2, this.canvas.height/2);
+    this.ctx.textAlign = 'center'
+    this.ctx.fillText(region['text'], window.innerWidth/2, window.innerHeight/2);
     this.setArrow(region, regions);
     
   }
 
   calculateRatio(boxWidth, boxHeight) {
-    var widthRatio = this.canvas.width / boxWidth;
-    var heightRatio = this.canvas.height / boxHeight;
-    console.log("width: " + widthRatio + "   height: " + heightRatio)
-    return Math.min(widthRatio, heightRatio);
+    var widthRatio = window.innerWidth / boxWidth;
+    var heightRatio = window.innerHeight / boxHeight;
+    //console.log("width: " + widthRatio + "   height: " + heightRatio)
+    return Math.min(widthRatio, heightRatio) * 0.9;
   }
 
   resetZoom () {
