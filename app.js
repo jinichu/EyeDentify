@@ -34,6 +34,8 @@ class App {
       console.log('optical flow', this.u, this.v)
     }, 2000)
 
+    this.zoom()
+
     this.setupWebRTC(webCamFlow)
   }
 
@@ -68,7 +70,6 @@ class App {
     const {u, v} = this
 
     this.canvas.toBlob((blob) => {
-        var that = this;
       var xhr = new XMLHttpRequest()
       const { key, region } = this.randomKey()
       xhr.open('POST', 'https://' + region + '.api.cognitive.microsoft.com/vision/v1.0/ocr', true)
@@ -76,7 +77,6 @@ class App {
       xhr.setRequestHeader("Ocp-Apim-Subscription-Key", key)
 
       xhr.onload = (e) => {
-
         var mainObject = null;
         var mainLeft = null;
         var mainTop = null;
@@ -176,8 +176,9 @@ class App {
           this.u -= u
           this.v -= v
 
-          setTimeout(that.zoom(mainObject), 5000);
           this.setArrow(mainObject,regions);
+
+        this.mainObject = mainObject
 
       }
       xhr.send(blob)
@@ -186,6 +187,7 @@ class App {
       //setTimeout(this.resetZoom(), 5000);
     })
   }
+
 
 
   setArrow (target, targetArray) {
@@ -277,10 +279,17 @@ class App {
   }
 
 
-  zoom (region) {
+  zoom () {
+    window.requestAnimationFrame(() => {
+      this.zoom()
+    })
+    const region = this.mainObject
+    if (!region) {
+      return
+    }
     var zoomRatio = this.calculateRatio(region.width, region.height);
-    var widthOffset = region.topLeft.x * -1;
-    var heightOffset = region.topLeft.y * -1;
+    var widthOffset = (region.topLeft.x + this.u) * -1;
+    var heightOffset = (region.topLeft.y + this.v) * -1;
 
     this.video.style.transform = 'scale(' + zoomRatio + ',' + zoomRatio + ') translate3d(' + widthOffset + 'px,' + heightOffset + 'px,0)';
   }
