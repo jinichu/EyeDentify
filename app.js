@@ -320,16 +320,26 @@ class App {
     }
     if (!region) return;
     
-    var zoomRatio = this.calculateRatio(region.width, region.height);
-    var widthOffset = (region.topLeft.x + this.u) * -1;
-    var heightOffset = (region.topLeft.y + this.v) * -1;
+    const x = (region.topLeft.x + region.bottomRight.x) / 2
+    const y = (region.topLeft.y + region.bottomRight.y) / 2
+    
+    var zoomRatio = this.calculateRatio(region.width, region.height)
+    if (region.width !== this.video.videoWidth) {
+      zoomRatio *= 0.75
+    }
+    var widthOffset = window.innerWidth / 2 / zoomRatio - x - this.u
+    var heightOffset = window.innerHeight / 2 / zoomRatio - y - this.v
 
-    this.video.style.transform = 'scale(' + zoomRatio + ',' + zoomRatio + ') translate3d(' + widthOffset + 'px,' + heightOffset + 'px,0)';
+    this.video.style.transform = 'scale(' + zoomRatio + ') translate3d(' + widthOffset + 'px,' + heightOffset + 'px,0)';
 
     this.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
     
     this.ctx.font = "100pt Arial";
     this.ctx.textAlign = 'center'
+    this.ctx.strokeStyle = 'white'
+    this.ctx.fillStyle = 'black'
+    this.ctx.lineWidth = 8
+    this.ctx.strokeText(region['text'], window.innerWidth/2, window.innerHeight/2);
     this.ctx.fillText(region['text'], window.innerWidth/2, window.innerHeight/2);
     this.setArrow(region, regions);
 
@@ -339,7 +349,7 @@ class App {
     var widthRatio = window.innerWidth / boxWidth;
     var heightRatio = window.innerHeight / boxHeight;
     //console.log("width: " + widthRatio + "   height: " + heightRatio)
-    return Math.min(widthRatio, heightRatio) * 0.9;
+    return Math.min(widthRatio, heightRatio);
   }
 
   resetZoom () {
