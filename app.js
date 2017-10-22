@@ -18,9 +18,14 @@ class App {
     const webCamFlow = new oflow.WebCamFlow(this.video, zoneSize)
     webCamFlow.startCapture()
 
+    webCamFlow.onCalculated((direction) => {
+      this.direction = direction
+    })
+
     setInterval(() => {
       this.ocr()
-    }, 1000)
+      console.log('optical flow', this.direction)
+    }, 2000)
   }
 
   randomKey () {
