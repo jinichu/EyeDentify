@@ -1,15 +1,14 @@
 {
   "name": "oflow",
-  "homepage": "https://github.com/anvaka/oflow",
-  "version": "0.2.2",
-  "_release": "0.2.2",
+  "homepage": "https://github.com/d4l3k/oflow",
+  "version": "0.2.3",
+  "_release": "0.2.3",
   "_resolution": {
     "type": "version",
-    "tag": "v0.2.2",
-    "commit": "9d8e4a77c3f34996a06ca50ae577bb3491cc1a74"
+    "tag": "0.2.3",
+    "commit": "8bbbae2d60f22c48b9e92636dfa8cbec33fff645"
   },
-  "_source": "https://github.com/anvaka/oflow.git",
-  "_target": "^0.2.2",
-  "_originalSource": "anvaka/oflow",
-  "_direct": true
+  "_source": "https://github.com/d4l3k/oflow.git",
+  "_target": "^0.2.3",
+  "_originalSource": "d4l3k/oflow"
 }

@@ -368,7 +368,7 @@ function WebCamFlow(defaultVideoTag, zoneSize, cameraFacing) {
         }
 
 
-        
+
 
         if (window.MediaStreamTrack.getSources) {
             window.MediaStreamTrack.getSources(function(sourceInfos) {
@@ -402,7 +402,7 @@ function WebCamFlow(defaultVideoTag, zoneSize, cameraFacing) {
                             selectedVideoSource = sourceInfos[i].deviceId;
                         }
                     }
-                    
+
                     desiredDevice = { optional: [{sourceId: selectedVideoSource}] };
 
                     navigator.getUserMedia({ video: desiredDevice }, function(stream) {
@@ -443,6 +443,9 @@ function WebCamFlow(defaultVideoTag, zoneSize, cameraFacing) {
         if (videoFlow) { videoFlow.stopCapture(); }
         if (videoTag) { videoTag.pause(); }
         if (localStream) { localStream.stop(); }
+    };
+    this.localStream = function() {
+        return localStream;
     };
 }
 
