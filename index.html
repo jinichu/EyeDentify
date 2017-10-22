@@ -21,7 +21,23 @@
 
 <h1>Intellilens (yo!)</h1>
 
-<p>TODO: whole app</p>
+<p>Lobby ID: <span id="lobbyID"></span></p>
+
+<webrtc-lobby-host id="lobby"
+                   url="wss://fn.lc/lobby"
+                   service="intellilens"
+                   name="foo"
+                   creator="bar"
+                   hidden="true">
+</webrtc-lobby-host>
+
+<script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+<link rel="import" href="bower_components/webrtc-lobby-elements/webrtc-lobby-elements.html">
 
 <script src="bower_components/oflow/dist/oflow.js"></script>
+<script src="webrtc.js"></script>
 <script src="app.js"></script>
+<script>
+window.app = new App()
+window.app.setup()
+</script>

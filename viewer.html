@@ -1,0 +1,21 @@
+<video id='videoOut'></video>
+
+<webrtc-lobby-list id="lobbyList"
+                   url="wss://fn.lc/lobby"
+                   service="intellilens">
+</webrtc-lobby-list>
+
+<script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+<link rel="import" href="bower_components/webrtc-lobby-elements/webrtc-lobby-elements.html">
+
+<script src="bower_components/oflow/dist/oflow.js"></script>
+<script src="webrtc.js"></script>
+<script src="app.js"></script>
+
+<script>
+window.onload = function() {
+  const vid = document.querySelector('#videoOut')
+  const lobbyID = prompt('lobby ID')
+  window.client = new WebRTCClient(lobbyID, vid)
+}
+</script>

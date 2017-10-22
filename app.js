@@ -30,6 +30,21 @@ class App {
       this.ocr()
       console.log('optical flow', this.u, this.v)
     }, 2000)
+
+    this.setupWebRTC(webCamFlow)
+  }
+
+  setupWebRTC (webCamFlow) {
+    const localStream = webCamFlow.localStream()
+    if (!localStream) {
+      setTimeout(() => {
+        this.setupWebRTC(webCamFlow)
+      }, 100)
+      return
+    }
+
+    console.log(localStream)
+    new WebRTCServer(localStream)
   }
 
   randomKey () {
@@ -63,6 +78,3 @@ class App {
     })
   }
 }
-
-window.app = new App()
-window.app.setup()
