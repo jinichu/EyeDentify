@@ -1,2 +1,2 @@
-# intellilens
-Real-time magnifiying glass for people with poor vision
+# Intellilens
+Real-time smart text magnifying app for people with partial blindness
