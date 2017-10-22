@@ -18,13 +18,17 @@ class App {
     const webCamFlow = new oflow.WebCamFlow(this.video, zoneSize)
     webCamFlow.startCapture()
 
+    this.u = 0
+    this.v = 0
+
     webCamFlow.onCalculated((direction) => {
-      this.direction = direction
+      this.u += direction.u
+      this.v += direction.v
     })
 
     setInterval(() => {
       this.ocr()
-      console.log('optical flow', this.direction)
+      console.log('optical flow', this.u, this.v)
     }, 2000)
   }
 
@@ -40,14 +44,20 @@ class App {
     this.canvas.height = height
     this.ctx = this.canvas.getContext('2d')
     this.ctx.drawImage(this.video, 0, 0)
+
+    const {u, v} = this
+
     this.canvas.toBlob((blob) => {
       var xhr = new XMLHttpRequest()
       const { key, region } = this.randomKey()
       xhr.open('POST', 'https://' + region + '.api.cognitive.microsoft.com/vision/v1.0/ocr', true)
       xhr.setRequestHeader("Content-Type", "application/octet-stream")
       xhr.setRequestHeader("Ocp-Apim-Subscription-Key", key)
-      xhr.onload = function(e) {
+      xhr.onload = function (e) {
         console.log(JSON.parse(e.target.response))
+
+        this.u -= u
+        this.v -= v
       }
       xhr.send(blob)
     })
