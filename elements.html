@@ -1,0 +1,75 @@
+<link rel="import" href="bower_components/polymer/polymer.html">
+<link rel="import" href="bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="index.html">
+
+<dom-module id="demo-element">
+  <template>
+    <style>
+      :host {
+      }
+    </style>
+    <style>
+          :host {
+            font-family: sans-serif;
+            --icon-toggle-color: pink;
+            --icon-toggle-outline-color: black;
+            --icon-toggle-pressed-color: blue;
+          }
+        </style>
+    <iron-icon icon = "add-circle-outline" pressed></iron-icon>
+
+  </template>
+
+</dom-module>
+<dom-module id="iron-i">
+
+  <template>
+
+    <style>
+      /* shadow DOM styles go here */
+      :host {
+        display: inline-block;
+      }
+      iron-icon{
+          fill: var(--icon-toggle-color, rgba(0,0,0,0));
+          stroke: var(--icon-toggle-outline-color, currentcolor);
+      }
+      :host([pressed]) iron-icon{
+          fill: var(--icon-toggle-pressed-color,currentcolor);
+      }
+    </style>
+
+    <!-- shadow DOM goes here -->
+    <iron-icon icon = "[[toggleIcon]]" on-click="toggle">
+    </iron-icon>
+  </template>
+
+<script>
+class IronIcon extends Polymer.Element {
+  static get is() {
+    return 'iron-i';
+  }
+  static get properties(){
+      return{
+          pressed: {
+              type: Boolean,
+              notify: true,
+              reflectToAttribute: true,
+              value: false
+    },
+          toggleIcon: {
+              type: String
+          },
+      }
+  }
+  constructor() {
+    super();
+  }
+
+  toggle(){
+      this.pressed = !this.pressed;
+  }
+}
+customElements.define(IronIcon.is, IronIcon);
+</script>
+</dom-module>
