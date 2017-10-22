@@ -1,14 +1,14 @@
 const keys = [
     { region: 'westcentralus', key: 'a4427f56a83b427cadfcdca78c98e0c4' },
     { region: 'westcentralus', key: '6a4bc5909ba4414597bbc4567d9659cc' },
-    { region: 'westus', key: 'ea909ef53db8447dbefe4b3f255fc45b' },
-    { region: 'westus', key: 'a26ef6df781a4eeab5f75d7ce07d56b9' },
-    { region: 'westcentralus', key: 'fce317283d4b4283aac46c54ebcf63be' },
-    { region: 'westcentralus', key: '6263e08f81bc4274ae0665f7722ad49c' },
-    { region: 'westus2', key: '695ae8b0f6ef43f9847986f2f7f88bf0' },
-    { region: 'westus2', key: '7779ba55bacc455e989834e225a1f5f4' },
-    { region: 'southcentralus', key: '1642eb66dec54c34a214ed06530f7472' },
-    { region: 'southcentralus', key: '6d874445df8b47078a889dee77c32874' },
+    { region: 'westus', key: '092d0a4c8e934919857726ee0a1f2928' },
+    { region: 'westus', key: '99aa985af2f6464293ebcc5bda2f5580' },
+    { region: 'westcentralus', key: 'd9ccfe4f73ca43708915b73114c34907' },
+    { region: 'westcentralus', key: '750ca688304f4e15ac346c9e5d3eaeeb' },
+    { region: 'westus2', key: '322f5cc4f2a94f34a9d0f8c1ef805248' },
+    { region: 'westus2', key: 'fa4e6728804740adabafbc738f39fa8f' },
+    { region: 'southcentralus', key: 'bbc2238b299f4e4596b2d55bb07e1c45' },
+    { region: 'southcentralus', key: '4b7f6c66d7f542ae8df07c92d17d1024' },
 ]
 
 const textScale = 1920;
