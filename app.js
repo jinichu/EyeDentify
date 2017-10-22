@@ -66,12 +66,12 @@ class App {
     const {u, v} = this
 
     this.canvas.toBlob((blob) => {
+        var that = this;
       var xhr = new XMLHttpRequest()
       const { key, region } = this.randomKey()
       xhr.open('POST', 'https://' + region + '.api.cognitive.microsoft.com/vision/v1.0/ocr', true)
       xhr.setRequestHeader("Content-Type", "application/octet-stream")
       xhr.setRequestHeader("Ocp-Apim-Subscription-Key", key)
-
       xhr.onload = function(e) {
         var mainObject = null;
         var mainLeft = null;
@@ -171,11 +171,31 @@ class App {
           console.log(mainObject['text']);
           this.u -= u
           this.v -= v
-
+          setTimeout(that.zoom(mainObject), 5000);
       }
       xhr.send(blob)
+
+      //make this into a button
+      //setTimeout(this.resetZoom(), 5000);
     })
   }
 
+  zoom (region) {
+    var zoomRatio = this.calculateRatio(region.width, region.height);
+    var widthOffset = region.topLeft.x * -1;
+    var heightOffset = region.topLeft.y * -1;
 
+    this.video.style.transform = 'scale(' + zoomRatio + ',' + zoomRatio + ') translate3d(' + widthOffset + 'px,' + heightOffset + 'px,0)';
+  }
+
+  calculateRatio(boxWidth, boxHeight) {
+    var widthRatio = this.canvas.width / boxWidth;
+    var heightRatio = this.canvas.height / boxHeight;
+    console.log("width: " + widthRatio + "   height: " + heightRatio)
+    return Math.min(widthRatio, heightRatio);
+  }
+
+  resetZoom () {
+      this.video.style.transform = "none";
+  }
 }

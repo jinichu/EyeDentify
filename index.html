@@ -1,18 +1,16 @@
 <style>
-#videoOut {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100vw;
-  height: 100vh;
-  pointer-events: none;
-}
-#box {
-  position: absolute;
-  pointer-events: none;
-  background-color: red;
-  opacity: 0.5;
-}
+    #videoOut {
+        position: absolute;
+        left: 0;
+        top: 0;
+        transform-origin: top left;
+    }
+    #box {
+        position: absolute;
+        pointer-events: none;
+        background-color: red;
+        opacity: 0.5;
+    }
 </style>
 
 <video id='videoOut'></video>
@@ -38,6 +36,6 @@
 <script src="webrtc.js"></script>
 <script src="app.js"></script>
 <script>
-window.app = new App()
-window.app.setup()
+    window.app = new App()
+    window.app.setup()
 </script>
