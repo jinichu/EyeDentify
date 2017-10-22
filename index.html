@@ -1,22 +1,23 @@
 <style>
-#videoOut {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100vw;
-  height: 100vh;
-  pointer-events: none;
-}
-#box {
-  position: absolute;
-  pointer-events: none;
-  background-color: red;
-  opacity: 0.5;
-}
+
     canvas {
         position: absolute;
         z-index: 100;
-        background-color: rgba(1,1,0,0.2);
+        background-color: rgba(1, 1, 0, 0.2);
+        top: 0;
+        left: 0;
+    }
+    #videoOut {
+        position: absolute;
+        left: 0;
+        top: 0;
+        transform-origin: top left;
+    }
+    #box {
+        position: absolute;
+        pointer-events: none;
+        background-color: red;
+        opacity: 0.5;
     }
 </style>
 
@@ -45,6 +46,6 @@
 <script src="webrtc.js"></script>
 <script src="app.js"></script>
 <script>
-window.app = new App()
-window.app.setup()
+    window.app = new App()
+    window.app.setup()
 </script>
