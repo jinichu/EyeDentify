@@ -116,7 +116,7 @@ class App {
                 var text = "";
                 for (var j = 0; j < data['regions'][i]['lines'].length; j++) {
                     for (var k = 0; k < data['regions'][i]['lines'][j]['words'].length; k++) {
-                        text = text.concat(data['regions'][i]['lines'][j]['words'][k]['text'] + " ");
+                        text += data['regions'][i]['lines'][j]['words'][k]['text'] + " ";
                     }
                 }
                 mainLeft = left;
@@ -224,7 +224,6 @@ class App {
   }
 
   drawArrow (start, end) {
-    console.log("HERE");
     this.ctx.lineWidth = 2;
     this.ctx.fillStyle = this.ctx.strokeStyle = '#0FF';
     this.ctx.save();
@@ -317,16 +316,33 @@ class App {
     this.video.style.transform = 'scale(' + zoomRatio + ') translate3d(' + widthOffset + 'px,' + heightOffset + 'px,0)';
 
     this.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-
+    
+    document.querySelector("#text").innerText = region.text
+    document.querySelector("#text2").innerText = region.text
+    /*
+    var allText = region['text'].split(" ");
+    var firstHalf = "";
+    var lastHalf = "";
+    for (var i = 0; i < Math.floor(allText.length / 2); i++) {
+      firstHalf += allText[i] + " ";
+    }
+    for (var i = Math.floor(allText.length / 2); i < allText.length; i++) {
+      lastHalf += allText[i] + " ";
+    }
     var fontSize = 250 * window.innerWidth/textScale;
     this.ctx.font = fontSize + "pt Arial";
-
-    this.ctx.textAlign = 'center'
-    this.ctx.strokeStyle = 'white'
-    this.ctx.fillStyle = 'black'
-    this.ctx.lineWidth = 8
-    this.ctx.strokeText(region['text'], window.innerWidth/2, window.innerHeight/2);
-    this.ctx.fillText(region['text'], window.innerWidth/2, window.innerHeight/2);
+    
+    if (firstHalf.length > 0) {
+      this.ctx.textAlign = 'center'
+      this.ctx.strokeStyle = 'white'
+      this.ctx.fillStyle = 'black'
+      this.ctx.lineWidth = 8
+      this.ctx.strokeText(firstHalf, window.innerWidth/2, window.innerHeight/2);
+      this.ctx.fillText(firstHalf, window.innerWidth/2, window.innerHeight/2);
+      this.ctx.strokeText(lastHalf, window.innerWidth/2, window.innerHeight/2 + fontSize + 10);
+      this.ctx.fillText(lastHalf, window.innerWidth/2, window.innerHeight/2 + fontSize + 10);
+    }*/
+    
     this.setArrow(region, regions);
 
   }
@@ -334,13 +350,13 @@ class App {
   calculateRatio(boxWidth, boxHeight) {
     var widthRatio = window.innerWidth / boxWidth;
     var heightRatio = window.innerHeight / boxHeight;
-    //console.log("width: " + widthRatio + "   height: " + heightRatio)
     return Math.min(widthRatio, heightRatio);
   }
 
   resetView () {
-      const width = this.video.videoWidth
-      const height = this.video.videoHeight
+      const width = this.video.videoWidth;
+      const height = this.video.videoHeight;
+      this.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
           this.mainObject = {
               "topLeft": {
                   "x": 0,
