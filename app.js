@@ -20,15 +20,18 @@ class App {
     const webCamFlow = new oflow.WebCamFlow(this.video, zoneSize)
     webCamFlow.startCapture();
 
+
     const canvas = document.querySelector('canvas')
-    canvas.width = window.innerWidth
+      canvas.addEventListener('click', () => {
+          this.resetView();
+      }, false);
+      canvas.width = window.innerWidth
     canvas.height = window.innerHeight
     this.ctx = canvas.getContext('2d')
-
     this.u = 0
     this.v = 0
-    
-    
+
+
 
     webCamFlow.onCalculated((direction) => {
       this.u += direction.u
@@ -72,29 +75,9 @@ class App {
     this.canvas.height = height
     const ctx = this.canvas.getContext('2d')
     ctx.drawImage(this.video, 0, 0)
-    
+
     if (!this.mainObject) {
-      this.mainObject = {
-          "topLeft": {
-              "x": 0,
-              "y": 0
-          },
-          "bottomLeft": {
-              "x": 0,
-              "y": height
-          },
-          "topRight": {
-              "x": width,
-              "y": 0
-          },
-          "bottomRight": {
-              "x": width,
-              "y": height
-          },
-          "text": "",
-          "width": width,
-          "height": height
-      }
+      this.resetView()
     }
 
     const {u, v} = this
@@ -319,10 +302,10 @@ class App {
       }
     }
     if (!region) return;
-    
+
     const x = (region.topLeft.x + region.bottomRight.x) / 2
     const y = (region.topLeft.y + region.bottomRight.y) / 2
-    
+
     var zoomRatio = this.calculateRatio(region.width, region.height)
     if (region.width !== this.video.videoWidth) {
       zoomRatio *= 0.75
@@ -333,7 +316,7 @@ class App {
     this.video.style.transform = 'scale(' + zoomRatio + ') translate3d(' + widthOffset + 'px,' + heightOffset + 'px,0)';
 
     this.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-    
+
     this.ctx.font = "100pt Arial";
     this.ctx.textAlign = 'center'
     this.ctx.strokeStyle = 'white'
@@ -352,11 +335,33 @@ class App {
     return Math.min(widthRatio, heightRatio);
   }
 
-  resetZoom () {
-      this.video.style.transform = "none";
+  resetView () {
+      const width = this.video.videoWidth
+      const height = this.video.videoHeight
+          this.mainObject = {
+              "topLeft": {
+                  "x": 0,
+                  "y": 0
+              },
+              "bottomLeft": {
+                  "x": 0,
+                  "y": height
+              },
+              "topRight": {
+                  "x": width,
+                  "y": 0
+              },
+              "bottomRight": {
+                  "x": width,
+                  "y": height
+              },
+              "text": "",
+              "width": width,
+              "height": height
+          }
   }
-  
-  
+
+
 }
 
 
