@@ -1,27 +1,35 @@
 <style>
 #videoOut {
   position: absolute;
-  left: 0;
-  top: 0;
-  width: 100vw;
-  height: 100vh;
   pointer-events: none;
+  top: 50%; left: 50%;
+  z-index: 1;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translate(-50%, -50%);
 }
+    
+    
 #box {
   position: absolute;
   pointer-events: none;
   background-color: red;
   opacity: 0.5;
 }
+
 </style>
 
 <video id='videoOut'></video>
 
 <div id="box"></div>
 
+<!--
 <h1>Intellilens (yo!)</h1>
 
 <p>TODO: whole app</p>
+-->
 
 <script src="bower_components/oflow/dist/oflow.js"></script>
 <script src="app.js"></script>
