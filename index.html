@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta name="viewport" content="width=device-width, user-scalable=no" />
     <meta charset="UTF-8">
     <title>Title</title>
     <script src="bower_components/progressbar.js/dist/progressbar.min.js"></script>
@@ -11,9 +12,12 @@
         margin: 20px;
         height: 8px;
     }
+    img {
+      max-width: 100%;
+    }
 </style>
 <body>
-    <p style="text-align:center;"><img style="width:800px; height:600px;" sizing="contain" src="my_logo_big.png"></p>
+    <p style="text-align:center;"><img style="width:800px" sizing="contain" src="my_logo_big.png"></p>
     <div id="container" >
         <script>
           var bar = new ProgressBar.Line(document.querySelector('#container'), {
