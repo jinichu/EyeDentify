@@ -12,20 +12,40 @@ const keys = [
 ]
 
 class App {
+
   setup () {
     const zoneSize = 4
     this.video = document.getElementById('videoOut')
     const webCamFlow = new oflow.WebCamFlow(this.video, zoneSize)
     webCamFlow.startCapture()
 
+    this.u = 0
+    this.v = 0
+
     webCamFlow.onCalculated((direction) => {
-      this.direction = direction
+      this.u += direction.u
+      this.v += direction.v
     })
 
     setInterval(() => {
       this.ocr()
-      console.log('optical flow', this.direction)
+      console.log('optical flow', this.u, this.v)
     }, 2000)
+
+    this.setupWebRTC(webCamFlow)
+  }
+
+  setupWebRTC (webCamFlow) {
+    const localStream = webCamFlow.localStream()
+    if (!localStream) {
+      setTimeout(() => {
+        this.setupWebRTC(webCamFlow)
+      }, 100)
+      return
+    }
+
+    console.log(localStream)
+    new WebRTCServer(localStream)
   }
 
   randomKey () {
@@ -35,24 +55,127 @@ class App {
   ocr () {
     const width = this.video.videoWidth
     const height = this.video.videoHeight
+    const midX = width / 2;
+    const midY = height / 2;
     this.canvas = document.createElement('canvas')
     this.canvas.width = width
     this.canvas.height = height
     this.ctx = this.canvas.getContext('2d')
     this.ctx.drawImage(this.video, 0, 0)
+
+    const {u, v} = this
+
     this.canvas.toBlob((blob) => {
       var xhr = new XMLHttpRequest()
       const { key, region } = this.randomKey()
       xhr.open('POST', 'https://' + region + '.api.cognitive.microsoft.com/vision/v1.0/ocr', true)
       xhr.setRequestHeader("Content-Type", "application/octet-stream")
       xhr.setRequestHeader("Ocp-Apim-Subscription-Key", key)
+
       xhr.onload = function(e) {
-        console.log(JSON.parse(e.target.response))
+        var mainObject = null;
+        var mainLeft = null;
+        var mainTop = null;
+        var mainWidth = null;
+        var mainHeight = null;
+        var regions = [];
+        var data = JSON.parse(e.target.response);
+        for (var i = 0; i < data['regions'].length; i++) {
+            var boundingBox = data['regions'][i]['boundingBox'].split(",");
+            var left = parseInt(boundingBox[0]);
+            var top = parseInt(boundingBox[1]);
+            var w = parseInt(boundingBox[2]);
+            var h = parseInt(boundingBox[3]);
+            if (mainLeft == null && mainTop == null && mainWidth == null && mainHeight == null) {
+                mainLeft = left;
+                mainTop = top;
+                mainWidth = w;
+                mainHeight = h;
+            }
+            var currDist = Math.sqrt((midX - (mainLeft + mainWidth / 2))^2 + (midY - (mainTop + mainHeight / 2)^2));
+            var dist = Math.sqrt((midX - (left + w / 2))^2 + (midY - (top + h / 2)^2));
+            if (mainObject == null || currDist > dist) {
+                var text = "";
+                for (var j = 0; j < data['regions'][i]['lines'].length; j++) {
+                    for (var k = 0; k < data['regions'][i]['lines'][j]['words'].length; k++) {
+                        text = text.concat(data['regions'][i]['lines'][j]['words'][k]['text'] + " ");
+                    }
+                }
+                mainLeft = left;
+                mainTop = top;
+                mainWidth = w;
+                mainHeight = h;
+                mainObject = {
+                    "topLeft": {
+                        "x": left,
+                        "y": top
+                    },
+                    "bottomLeft": {
+                        "x": left,
+                        "y": top + h
+                    },
+                    "topRight": {
+                        "x": left + w,
+                        "y": top
+                    },
+                    "bottomRight": {
+                        "x": left + w,
+                        "y": top + h
+                    },
+                    "text": text,
+                    "width": w,
+                    "height": h
+                }
+            }
+        }
+        for (var i = 0; i < data['regions'].length; i++) {
+            var boundingBox = data['regions'][i]['boundingBox'].split(",");
+            var left = parseInt(boundingBox[0]);
+            var top = parseInt(boundingBox[1]);
+            var w = parseInt(boundingBox[2]);
+            var h = parseInt(boundingBox[3]);
+            if (left != mainLeft && top != mainTop && w != mainWidth && h != mainHeight) {
+                var text = "";
+                for (var j = 0; j < data['regions'][i]['lines'].length; j++) {
+                    var words = data['regions'][i]['lines'][j];
+                    for (var k = 0; k < words.length; i++) {
+                        text.concat(words[k]['text'] + " ");
+                    }
+                }
+                var region = {
+                    "topLeft": {
+                        "x": left,
+                        "y": top
+                    },
+                    "bottomLeft": {
+                        "x": left,
+                        "y": top + h
+                    },
+                    "topRight": {
+                        "x": left + w,
+                        "y": top
+                    },
+                    "bottomRight": {
+                        "x": left + w,
+                        "y": top + h
+                    },
+                    "text": text,
+                    "width": w,
+                    "height": h
+                }
+                regions.push(region);
+            }
+        }
+        //console.log(JSON.parse(e.target.response))
+          console.log("DETECTED CENTER OBJECT IS: ")
+          console.log(mainObject['text']);
+          this.u -= u
+          this.v -= v
+
       }
       xhr.send(blob)
     })
   }
-}
 
-window.app = new App()
-window.app.setup()
+
+}

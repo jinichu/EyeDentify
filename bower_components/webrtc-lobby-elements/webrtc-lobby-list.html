@@ -1,0 +1,21 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../polymer-ts/polymer-ts.html">
+<link rel="import" href="../x-websocket/dist/x-websocket.html">
+
+<!--
+An element for fetching available games from the server.
+
+Example:
+
+  <webrtc-lobby-list service="my-game" lobbies="{{lobbies}}" url="ws://example.com/ws"></webrtc-lobby-list>
+
+@demo
+-->
+<dom-module id="webrtc-lobby-list">
+  <template>
+    <x-websocket id="socket" auto json url="{{url}}" on-open="onOpen" on-message="message"></x-websocket>
+  </template>
+
+</dom-module>
+
+<script src="webrtc-lobby-list.js"></script>

@@ -19,6 +19,10 @@
     "tests"
   ],
   "dependencies": {
-    "oflow": "anvaka/oflow#^0.2.2"
+    "oflow": "d4l3k/oflow#^0.2.3",
+    "webrtc-lobby-elements": "d4l3k/webrtc-lobby-elements#^1.0.3"
+  },
+  "resolutions": {
+    "polymer": "1.4.0"
   }
 }
